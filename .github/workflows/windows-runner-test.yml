@@ -1,0 +1,41 @@
+name: Windows Runner Test
+
+on:
+  workflow_dispatch:   # allows manual run from GitHub UI
+  push:
+    branches:
+      - main
+
+jobs:
+  test-windows-runner:
+    name: Test on GitHub Windows Runner
+    runs-on: windows-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Show system information
+        run: |
+          echo "Hostname:"
+          hostname
+          echo "OS Version:"
+          systeminfo | findstr /B /C:"OS Name" /C:"OS Version"
+          echo "User:"
+          whoami
+
+      - name: Check installed software
+        run: |
+          dotnet --info
+          git --version
+          python --version
+          choco --version
+
+      - name: Verify .NET Framework installation
+        run: |
+          reg query "HKLM\SOFTWARE\Microsoft\NET Framework Setup\NDP\v4\Full" /v Version
+
+      - name: List environment variables
+        shell: powershell
+        run: |
+          Get-ChildItem Env: | Sort-Object Name
