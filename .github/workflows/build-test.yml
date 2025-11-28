@@ -23,8 +23,7 @@ jobs:
         uses: actions/checkout@v4
 
       # ========== Replace NuGetToolInstaller ==========
-      - name: Install NuGet 5.4.0
-        run: |
-          choco install nuget.commandline --version=5.4.0 -y
-          nuget help | Select-String "5.4.0"
-
+      - name: Install NuGet
+        uses: NuGet/setup-nuget@v2
+        with:
+          nuget-version: '5.4.0'
