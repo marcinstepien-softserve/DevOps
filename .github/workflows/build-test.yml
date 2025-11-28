@@ -1,0 +1,30 @@
+name: Build Test
+
+on:
+  workflow_dispatch:
+    inputs:
+      transformation:
+        description: 'Environment transformation (e.g. DEV, QA, PROD)'
+        required: true
+        default: 'DEV'
+
+jobs:
+  build:
+    name: Build test Solution
+    runs-on: windows-latest
+
+    env:
+      TRANSFORMATION: ${{ github.event.inputs.transformation }}
+      BUILD_CONFIGURATION: Release
+      BUILD_PLATFORM: Any CPU
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      # ========== Replace NuGetToolInstaller ==========
+      - name: Install NuGet 5.4.0
+        run: |
+          choco install nuget.commandline --version=5.4.0 -y
+          nuget help | Select-String "5.4.0"
+
