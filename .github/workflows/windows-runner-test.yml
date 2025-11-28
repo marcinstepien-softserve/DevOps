@@ -1,10 +1,7 @@
 name: Windows Runner Test
 
 on:
-  workflow_dispatch:   # allows manual run from GitHub UI
-  push:
-    branches:
-      - main
+  workflow_dispatch:
 
 jobs:
   test-windows-runner:
